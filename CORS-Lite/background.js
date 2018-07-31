@@ -22,7 +22,7 @@ var responseListener = function(details) {
   if (details && details.url && url_regex_pattern && url_regex_pattern.test(details.url)) {
     var flag = false
     var rule = {
-      "name": "Access-Control-Allow-Origin",
+      "name": "access-control-allow-origin",
       "value": "*"
     }
 

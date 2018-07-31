@@ -1,6 +1,6 @@
 {
     "name": "CORS Lite",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Add CORS response header to URLs matching a configurable regex pattern.",
     "icons": {
        "16": "img/icon16.png",
