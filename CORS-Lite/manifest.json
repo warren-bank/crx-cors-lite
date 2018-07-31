@@ -1,0 +1,24 @@
+{
+    "name": "CORS Lite",
+    "version": "0.1.0",
+    "description": "Add CORS response header to URLs matching a configurable regex pattern.",
+    "icons": {
+       "16": "img/icon16.png",
+       "48": "img/icon48.png",
+      "128": "img/icon128.png"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    },
+    "permissions": [
+        "storage",
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
+    ],
+    "manifest_version": 2
+}
