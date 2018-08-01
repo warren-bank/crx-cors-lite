@@ -3,8 +3,17 @@
 <head><title>CORS Lite: Options</title></head>
 <body>
 
-case-insensitive URL regex pattern:<br>
-<input type="text" id="url_regex_pattern" style="width:95%;margin:0.5em 0;">
+<div style="margin-bottom: 1em;">
+  case-insensitive URL regex pattern:<br>
+  <input type="text" id="url_regex_pattern" style="width:95%;margin:0.5em 0;"><br>
+  <li> CORS header will be added to matching URLs
+</div>
+
+<div style="margin-bottom: 1em;">
+  case-insensitive HTTP response headers regex pattern:<br>
+  <input type="text" id="headers_regex_pattern" style="width:95%;margin:0.5em 0;"><br>
+  <li> matching headers will be removed from matching URLs (above)
+</div>
 
 <div id="status"></div>
 <button id="save">Save</button>
