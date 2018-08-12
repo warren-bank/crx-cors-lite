@@ -5,7 +5,10 @@
 A very minimal Chromium extension:
 * allows the user to configure the regex patterns:
   * _URLs_
-    * will add permissive CORS response headers to all matching URLs
+    * will add permissive CORS response headers to all matching URLs:
+      * Access-Control-Allow-Origin
+      * Access-Control-Allow-Headers
+      * Access-Control-Allow-Methods
     * will remove all response headers that match the _headers_ regex pattern
   * _headers_
 
@@ -16,8 +19,6 @@ A very minimal Chromium extension:
   * PBS redirected video streams
 * _headers_ regex pattern will match:
   * Access-Control-Max-Age
-  * Access-Control-Allow-Methods
-  * Access-Control-Allow-Headers
   * Content-Security-Policy
 
 #### Credits:

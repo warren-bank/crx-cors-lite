@@ -104,8 +104,6 @@ chrome.runtime.onInstalled.addListener(
 
       headers_regexs = []
       headers_regexs.push("Access-Control-Max-Age")
-      headers_regexs.push("Access-Control-Allow-Methods")
-      headers_regexs.push("Access-Control-Allow-Headers")
       headers_regexs.push("Content-Security-Policy")
       headers_regexs = "(?:" + headers_regexs.join("|").toLowerCase() + ")"
 
