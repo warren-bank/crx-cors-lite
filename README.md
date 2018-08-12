@@ -3,12 +3,22 @@
 #### Summary:
 
 A very minimal Chromium extension:
-* allows the user to configure a regex pattern
-* will add a CORS response header to all matching URLs
+* allows the user to configure the regex patterns:
+  * _URLs_
+    * will add permissive CORS response headers to all matching URLs
+    * will remove all response headers that match the _headers_ regex pattern
+  * _headers_
 
 #### Default Configuration:
 
-* a regex pattern that matches the file extension for many common formats of video and external subtitles
+* _URLs_ regex pattern will match:
+  * file extensions for many common formats of video and external subtitles
+  * PBS redirected video streams
+* _headers_ regex pattern will match:
+  * Access-Control-Max-Age
+  * Access-Control-Allow-Methods
+  * Access-Control-Allow-Headers
+  * Content-Security-Policy
 
 #### Credits:
 

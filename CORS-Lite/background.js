@@ -34,29 +34,49 @@ var reload = function() {
   })
 }
 
+var update_headers = function(headers, updated_header, first_pass) {
+  var is_updated = false
+
+  updated_header.name = updated_header.name.toLowerCase()
+
+  for (var i=(headers.length - 1); i>=0; i--) {
+    if (first_pass) {
+      headers[i].name = headers[i].name.toLowerCase()
+
+      if (regex_patterns.headers && regex_patterns.headers.test(headers[i].name)) {
+        headers.splice(i, 1)
+        continue
+      }
+    }
+    if (headers[i].name === updated_header.name) {
+      is_updated = true
+      headers[i].value = updated_header.value
+    }
+  }
+
+  if (!is_updated) {
+    headers.push(updated_header)
+  }
+}
+
 var responseListener = function(details) {
   var headers = (details.responseHeaders && details.responseHeaders.length) ? [...details.responseHeaders] : []
 
   if (details && details.url && regex_patterns.url && regex_patterns.url.test(details.url)) {
-    var flag = false
-    var rule = {
-      "name": "access-control-allow-origin",
+    var updated_headers = [{
+      "name": "Access-Control-Allow-Origin",
       "value": "*"
-    }
+    },{
+      "name": "Access-Control-Allow-Headers",
+      "value": "*"
+    },{
+      "name": "Access-Control-Allow-Methods",
+      "value": "*"
+    }]
 
-    for (var i=(headers.length - 1); i>=0; i--) {
-      if (headers[i].name.toLowerCase() === rule.name) {
-        flag = true
-        headers[i].value = rule.value
-      }
-      else if (regex_patterns.headers) {
-        if (regex_patterns.headers.test(headers[i].name)) {
-          headers.splice(i, 1)
-        }
-      }
-    }
-
-    if (!flag) headers.push(rule)
+    updated_headers.forEach(function(updated_header, index){
+      update_headers(headers, updated_header, (index===0))
+    })
   }
 
   return {responseHeaders: headers}
