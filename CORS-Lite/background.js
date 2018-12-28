@@ -63,9 +63,11 @@ var responseListener = function(details) {
   var headers = (details.responseHeaders && details.responseHeaders.length) ? [...details.responseHeaders] : []
 
   if (details && details.url && regex_patterns.url && regex_patterns.url.test(details.url)) {
+    var origin = (details.initiator && details.initiator !== 'null') ? details.initiator : "*"
+
     var updated_headers = [{
       "name": "Access-Control-Allow-Origin",
-      "value": "*"
+      "value": origin
     },{
       "name": "Access-Control-Allow-Headers",
       "value": "*"
@@ -105,6 +107,7 @@ chrome.runtime.onInstalled.addListener(
       headers_regexs = []
       headers_regexs.push("Access-Control-Max-Age")
       headers_regexs.push("Content-Security-Policy")
+      headers_regexs.push("X-Frame-Options")
       headers_regexs = "(?:" + headers_regexs.join("|").toLowerCase() + ")"
 
       chrome.storage.sync.set({
