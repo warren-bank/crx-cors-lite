@@ -63,7 +63,7 @@ var responseListener = function(details) {
   var headers = (details.responseHeaders && details.responseHeaders.length) ? [...details.responseHeaders] : []
 
   if (details && details.url && regex_patterns.url && regex_patterns.url.test(details.url)) {
-    var origin = (details.initiator && details.initiator !== 'null') ? details.initiator : "*"
+    var origin = (details.initiator && details.initiator !== 'null' && details.initiator !== 'file://') ? details.initiator : "*"
 
     var updated_headers = [{
       "name": "Access-Control-Allow-Origin",
@@ -99,10 +99,13 @@ chrome.runtime.onInstalled.addListener(
       // initialize default value of option(s)
       var url_regexs, headers_regexs
 
+    /*
       url_regexs = []
       url_regexs.push("\\.(?:mp4|mp4v|mpv|m1v|m4v|mpg|mpg2|mpeg|xvid|webm|3gp|avi|mov|mkv|ogv|ogm|m3u8|mpd|ism(?:[vc]|/manifest)?|vtt|srt|sami|dfxp)(?:[\\?#].*)?$")
       url_regexs.push("pbs\\.org/redirect/")
       url_regexs = "(?:" + url_regexs.join("|") + ")"
+    */
+      url_regexs = '.*'
 
       headers_regexs = []
       headers_regexs.push("Access-Control-Max-Age")
