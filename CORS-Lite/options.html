@@ -10,6 +10,15 @@
 </div>
 
 <div style="margin-bottom: 1em;">
+  value of "Access-Control-Allow-Origin" header:<br>
+  <select id="allow_origin_value" style="width:95%;margin:0.5em 0;">
+    <option value="0">origin of page URL</option>
+    <option value="1">'*'</option>
+    <option value="2">'null'</option>
+  </select>
+</div>
+
+<div style="margin-bottom: 1em;">
   case-insensitive HTTP response headers regex pattern:<br>
   <input type="text" id="headers_regex_pattern" style="width:95%;margin:0.5em 0;"><br>
   <li> matching headers will be removed from matching URLs (above)

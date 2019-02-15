@@ -3,6 +3,10 @@ var regex_patterns = {
   headers: null
 }
 
+var dropdowns = {
+  allow_origin_value: null
+}
+
 var update_regex_pattern = function(key, str) {
   var backup
 
@@ -23,6 +27,18 @@ var update_regex_pattern = function(key, str) {
   }
 }
 
+var update_dropdown = function(key, val) {
+  var index = parseInt(val, 10)
+
+  if (isNaN(index)){
+    return false
+  }
+  else {
+    dropdowns[key] = index
+    return true
+  }
+}
+
 var reload = function() {
   chrome.storage.sync.get(["url_regex_pattern", "headers_regex_pattern"], function(items) {
     var key, val
@@ -30,6 +46,13 @@ var reload = function() {
       val = items[key]
       key = key.replace('_regex_pattern', '')
       update_regex_pattern(key, val)
+    }
+  })
+  chrome.storage.sync.get(["allow_origin_value"], function(items) {
+    var key, val
+    for (key in items) {
+      val = items[key] || "0"
+      update_dropdown(key, val)
     }
   })
 }
@@ -63,7 +86,26 @@ var responseListener = function(details) {
   var headers = (details.responseHeaders && details.responseHeaders.length) ? [...details.responseHeaders] : []
 
   if (details && details.url && regex_patterns.url && regex_patterns.url.test(details.url)) {
-    var origin = (details.initiator && details.initiator !== 'null' && details.initiator !== 'file://') ? details.initiator : "*"
+    var origin
+    switch (dropdowns.allow_origin_value) {
+      case 2:
+        origin = 'null'
+        break
+      case 1:
+        origin = '*'
+        break
+      case 0:
+      default:
+        if (! details.initiator)
+          origin = '*'
+        else if (details.initiator === 'file://')
+          origin = '*'
+        else if (details.initiator === 'null')
+          origin = 'null'
+        else
+          origin = details.initiator
+        break
+    }
 
     var updated_headers = [{
       "name": "Access-Control-Allow-Origin",
@@ -115,7 +157,8 @@ chrome.runtime.onInstalled.addListener(
 
       chrome.storage.sync.set({
         "url_regex_pattern":     url_regexs,
-        "headers_regex_pattern": headers_regexs
+        "headers_regex_pattern": headers_regexs,
+        "allow_origin_value":    "0"
       }, reload)
     }
   }
